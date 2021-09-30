@@ -3,14 +3,14 @@ import numpy as np
 import numba
 @numba.njit(parallel = True)
 def julia(c,X,Y):
-	plane = np.zeros((X,Y),dtype = numba.complex128)
-	result = np.zeros((X,Y))
-	mask = np.zeros((X,Y),dtype = numba.boolean)
-	C = np.multiply(np.ones((X,Y),dtype = numba.complex128),c)
-	for i in range(X):
-		D = min(X,Y)
-		for k in range(Y):
-			plane[i][k] = complex(2*(i - X/2)/D, 2*(k - Y/2)/D )
+	plane = np.zeros((Y,X),dtype = numba.complex128)
+	result = np.zeros((Y,X))
+	mask = np.zeros((Y,X),dtype = numba.boolean)
+	C = np.multiply(np.ones((Y,X),dtype = numba.complex128),c)
+	D = min(X,Y)
+	for i in range(Y):
+		for k in range(X):
+			plane[i][k] = complex(2*(k - X/2)/D,2*(i - Y/2)/D )
 	depth = 50
 	threashold = 100
 	for i in range (depth):
@@ -19,11 +19,11 @@ def julia(c,X,Y):
 		recent_blowup = np.logical_xor(np.logical_or((abs_pic >= threashold),mask),mask)
 		aux = np.multiply(recent_blowup,i)
 		result = result + aux
-		mask = (abs_pic > threashold) | mask 
+		mask = np.logical_or((abs_pic > threashold),mask) 
 	return (result)
-for i in range (-10,10):
-	a = julia(complex(0.3,(0.6+i/1000)),512,1024)
-	plt.pause(0.024)
+for i in range (0,100):
+	a = julia(complex(-0.72 - i/1000,0.15),1080,720)
+	plt.pause(0.004)
 	plt.clf()
 	plt.imshow(a)
 	plt.draw()

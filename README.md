@@ -1,5 +1,5 @@
 # animated-juliaset-generator
 fast juliaset generation using numpy and numba jit
 Numpy is the core library for scientific computing in Python. It provides a more efficient way for arrays and metrics computations spatially when combined with numba witch provides the feature of jit (just in time compiler), and it also allows to use CPU cores in parallel.  jit takes Python functions designated by particular annotations (the jit decorator ) and transforms as much as it can — via the LLVM (Low Level Virtual Machine) compiler — to efficient CPU and GPU (via CUDA for Nvidia GPUs and HSA for AMD GPUs) code. 
-i was able to achieve about 100 frames in 79.2 seconds (1.26 fps) on my intel core i7 7500U using the two cores .
+i was able to achieve about 100 frames in 79.2 seconds (1.26 fps) at 1080p by 720p on my intel core i7 7500U using the two cores .
 because my approach based on matrices multiplication rather than going through each and every single point . i expect better performance when using CUDA and a GPU , but that will be for the future , i tried with goole colab , but i cannot notice any diffrence in speed.
